@@ -5,8 +5,16 @@ import PostCard from "../components/PostCard";
 import PostForm from "../components/PostForm"; // Assuming you have this component
 import { Box, Container, Typography, CircularProgress } from "@mui/material";
 
-// *** FIX 1: Define the API URL for your local Spring Boot server ***
-const API_URL = "http://localhost:8080/api/posts";
+let base =
+  import.meta.env.VITE_API_BASE ||
+  (import.meta.env.DEV
+    ? '/api/posts'
+    : 'https://post-api-fiyx.onrender.com');
+
+export function setBaseUrl(url) {
+  if (!url) return;
+  base = url.endsWith('/') ? url.slice(0, -1) : url;
+}
 
 const NewsFeed = () => {
   const [posts, setPosts] = useState([]);

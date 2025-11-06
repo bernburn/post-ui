@@ -8,7 +8,7 @@ export default defineConfig({
     // This is the key for connecting in dev mode
     proxy: {
       '/api/posts': {
-        target: 'http://localhost:5173', // Address of your Spring Boot server
+        target: 'https://post-api-fiyx.onrender.com', // Address of your Spring Boot server
         changeOrigin: true,
         // (Optional) Remove the /api prefix if your Spring Controller @RequestMapping doesn't have it
         // rewrite: (path) => path.replace(/^\/api/, '')
