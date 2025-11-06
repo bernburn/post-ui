@@ -6,6 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     // This is the key for connecting in dev mode
+    port: 5173,
     proxy: {
       '/api/posts': {
         target: 'https://post-api-fiyx.onrender.com', // Address of your Spring Boot server
