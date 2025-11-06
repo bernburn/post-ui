@@ -17,12 +17,12 @@ export default defineConfig({
         rewrite: (path) => path,
       },
     },
-    preview: {
-      host: "0.0.0.0", // Ensure it binds to the external interface
-      port: 10000, // Ensure it uses the required port
-      allowedHosts: [
-        "post-ui-9f32.onrender.com", // Explicitly allows your service URL (good for clarity)
-      ],
-    },
+  },
+  preview: {
+    host: "0.0.0.0", // Ensure it binds to the external interface
+    port: 10000, // Ensure it uses the required port
+    allowedHosts: [
+      "post-ui-9f32.onrender.com", // Explicitly allows your service URL (good for clarity)
+    ],
   },
 });
