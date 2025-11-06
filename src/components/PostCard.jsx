@@ -3,37 +3,36 @@ import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
 
 const PostCard = ({ post }) => {
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100%", // Full width
-        backgroundColor: "#f5f5f5", // Light background color
-        padding: 1, // Reduced padding
-      }}
-    >
+    <Box sx={{ width: "100%", paddingY: 1 }}>
       <Card
         sx={{
-          width: "100%", // Full width
+          width: "100%",
           boxShadow: 3,
           borderRadius: 2,
           padding: 2,
+          backgroundColor: '#fff',
         }}
       >
         <CardContent>
-          <Typography variant="h6" component="div">
-            {post.author}
+          <Typography variant="h6" component="div" sx={{ fontWeight: 'bold' }}>
+            {post.author || "Anonymous"}
           </Typography>
-          <Typography variant="body1" color="text.secondary" sx={{ marginTop: 1 }}>
+          <Typography variant="body1" color="text.secondary" sx={{ marginTop: 1, whiteSpace: 'pre-wrap' }}>
             {post.content}
           </Typography>
           {post.imageUrl && (
             <CardMedia
               component="img"
               image={post.imageUrl}
-              alt="Post"
-              sx={{ borderRadius: 2, marginTop: 2 }}
+              alt="Post Image"
+              onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; console.error('Image failed to load:', post.imageUrl); }}
+              sx={{ 
+                borderRadius: 1, 
+                marginTop: 2, 
+                maxHeight: 350, 
+                objectFit: 'cover',
+                width: '100%' 
+              }}
             />
           )}
           <Typography
@@ -41,7 +40,7 @@ const PostCard = ({ post }) => {
             color="text.secondary"
             sx={{ marginTop: 2, display: "block" }}
           >
-            Created At: {new Date(post.createdAt).toLocaleString()}
+            Posted: {post.createdAt ? new Date(post.createdAt).toLocaleString() : 'Just Now'}
           </Typography>
         </CardContent>
       </Card>
