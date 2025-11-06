@@ -5,15 +5,15 @@ import PostCard from "../components/PostCard";
 import PostForm from "../components/PostForm"; // Assuming you have this component
 import { Box, Container, Typography, CircularProgress } from "@mui/material";
 
-let base =
+let API_URL =
   import.meta.env.VITE_API_BASE ||
   (import.meta.env.DEV
-    ? '/api/posts'
-    : 'https://post-api-fiyx.onrender.com');
+    ? "/api/posts"
+    : "https://post-api-fiyx.onrender.com/api/posts");
 
 export function setBaseUrl(url) {
   if (!url) return;
-  base = url.endsWith('/') ? url.slice(0, -1) : url;
+  API_URL = url;
 }
 
 const NewsFeed = () => {
@@ -43,7 +43,7 @@ const NewsFeed = () => {
     try {
       const response = await axios.post(API_URL, newPost);
       // Add the new post (with server-generated ID/timestamp) to the top of the list
-      setPosts([response.data, ...posts]); 
+      setPosts([response.data, ...posts]);
     } catch (error) {
       console.error("Error adding post:", error);
       // Here you would typically notify the user of a failed post attempt
@@ -68,13 +68,22 @@ const NewsFeed = () => {
       }}
     >
       <Container maxWidth="sm">
-        <Typography variant="h3" component="h1" sx={{ marginBottom: 4, textAlign: "center", color: '#1877F2', fontWeight: 700 }}>
+        <Typography
+          variant="h3"
+          component="h1"
+          sx={{
+            marginBottom: 4,
+            textAlign: "center",
+            color: "#1877F2",
+            fontWeight: 700,
+          }}
+        >
           Social Feed
         </Typography>
-        
+
         {/* Input form to create new posts */}
         <PostForm onAddPost={handleAddPost} />
-        
+
         {/* Loading Indicator */}
         {loading && (
           <Box sx={{ display: "flex", justifyContent: "center", marginTop: 4 }}>
@@ -84,21 +93,34 @@ const NewsFeed = () => {
 
         {/* Error Message for Fetching */}
         {!loading && fetchError && (
-            <Alert severity="error" sx={{ marginTop: 4 }}>
-                Failed to load posts. Is your Java backend running on **http://localhost:5173**?
-            </Alert>
+          <Alert severity="error" sx={{ marginTop: 4 }}>
+            Failed to load posts. Is your Java backend running on
+            **http://localhost:5173**?
+          </Alert>
         )}
-        
+
         {/* Posts List */}
-        {!loading && !fetchError && posts && Array.isArray(posts) && posts.length > 0 ? (
-            posts.map((post) => <PostCard key={post.id || Math.random()} post={post} />)
-        ) : (
-             !loading && !fetchError && (
-                <Typography variant="body1" sx={{ marginTop: 4, textAlign: "center", color: 'text.secondary' }}>
-                    No posts yet. Be the first one to share!
-                </Typography>
-            )
-        )}
+        {!loading &&
+        !fetchError &&
+        posts &&
+        Array.isArray(posts) &&
+        posts.length > 0
+          ? posts.map((post) => (
+              <PostCard key={post.id || Math.random()} post={post} />
+            ))
+          : !loading &&
+            !fetchError && (
+              <Typography
+                variant="body1"
+                sx={{
+                  marginTop: 4,
+                  textAlign: "center",
+                  color: "text.secondary",
+                }}
+              >
+                No posts yet. Be the first one to share!
+              </Typography>
+            )}
       </Container>
     </Box>
   );
